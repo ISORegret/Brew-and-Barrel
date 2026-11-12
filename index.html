@@ -59,12 +59,7 @@
     background:rgba(255,255,255,.04);color:var(--paper-dim);min-height:40px;display:inline-flex;align-items:center;
   }
   .toolbar a:hover,.toolbar a:focus-visible{border-color:var(--jag-teal-light);color:var(--jag-teal-light);outline:none}
-  .today-pill{
-    display:none;width:100%;text-align:center;font-size:.92rem;color:#fff;background:var(--jag-teal);
-    border:1px solid rgba(215,162,42,.65);
-    font-weight:700;border-radius:999px;padding:9px 14px;
-  }
-  .today-pill.show{display:block}
+
 
   /* ---------- flyer ---------- */
   .flyer{
@@ -179,14 +174,30 @@
   .price .dual{display:block}
   .price .dual + .dual{margin-top:2px}
 
-  .today-tag{
-    display:none;position:absolute;top:-9px;right:12px;background:var(--jag-teal);color:#fff;
-    border:1px solid var(--jag-gold);
-    font-family:"Oswald",sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-    padding:4px 8px;border-radius:999px;
-  }
   .is-today{background:rgba(0,103,120,.16) !important;box-shadow:inset 0 0 0 1px rgba(62,198,221,.55)}
-  .is-today .today-tag{display:inline-block}
+  .drink-card.is-today{
+    background:linear-gradient(180deg,#0b414d,#06232a);
+    border-color:rgba(62,198,221,.55);border-top-color:var(--jag-gold);
+    box-shadow:0 12px 28px rgba(0,0,0,.4);
+  }
+  /* "Today" pill in the masthead + Today/Tonight tags added by the script below */
+  .today-pill{
+    display:inline-flex;flex-wrap:wrap;gap:6px 10px;align-items:center;justify-content:center;
+    margin:18px auto 0;padding:9px 18px;max-width:92%;
+    border:1px solid rgba(215,162,42,.65);border-radius:999px;
+    background:rgba(0,46,54,.55);color:var(--paper);font-size:.95rem;line-height:1.35;
+  }
+  .today-pill[hidden]{display:none}
+  .tp-label{
+    font-family:"Oswald",sans-serif;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+    font-size:.7rem;color:var(--jag-black);background:var(--jag-gold);padding:3px 9px 2px;border-radius:999px;
+  }
+  .today-tag{
+    display:inline-block;font-family:"Oswald",sans-serif;font-size:.62rem;font-weight:700;
+    letter-spacing:.18em;text-transform:uppercase;background:var(--jag-gold);color:var(--jag-black);
+    padding:3px 8px 2px;border-radius:999px;margin-top:6px;white-space:nowrap;
+  }
+  .drink-card .today-tag{margin:10px 0 0}
 
   /* drinks */
   .drinks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -266,7 +277,8 @@
        so a flyer on the wall never looks stale. The live link still
        highlights the current day on the viewer's phone. */
     .is-today{background:transparent !important;box-shadow:none !important}
-    .today-tag{display:none !important}
+    .today-pill,.today-tag{display:none !important}
+
     .drink-card.is-today{border-top-color:rgba(215,162,42,.6)}
     .drinks-grid .drink-card.is-today:nth-child(even){border-top-color:rgba(14,157,184,.75)}
   }
@@ -276,7 +288,6 @@
 <div class="wrap">
 
   <nav class="toolbar" aria-label="Flyer sections">
-    <div class="today-pill" id="todayPill"></div>
     <a href="#happy-hour">Happy Hour</a>
     <a href="#food">Food Specials</a>
     <a href="#drinks">Drink Specials</a>
@@ -300,6 +311,7 @@
       <p class="duval-line">Jacksonville &nbsp;•&nbsp; Duuuval Country</p>
       <p class="tagline"><strong>Good food. Cold pours. A reason to come in every night.</strong><br>
       $1 wings on Mondays, tavern sandwiches all weekend, and a different pour on special every night of the week.</p>
+      <p class="today-pill" id="todayPill" hidden><span class="tp-label">Today</span><span id="todayPillText"></span></p>
     </header>
 
     <div class="hero-photo">
@@ -341,50 +353,43 @@
         </aside>
 
         <div class="rows" id="foodRows">
-          <div class="row" data-day="1">
-            <span class="today-tag">Today</span>
+          <div class="row">
             <div class="day">Monday</div>
             <div class="dish"><strong>Wings</strong></div>
             <div class="price">$1</div>
           </div>
 
-          <div class="row" data-day="2">
-            <span class="today-tag">Today</span>
+          <div class="row">
             <div class="day">Tuesday</div>
             <div class="dish"><strong>Pizza Night</strong><span class="sub">Cheese &amp; pepperoni — $12 &nbsp;•&nbsp; Specialty pizzas — $15</span></div>
             <div class="price"><span class="dual">$12 <small>/ $15</small></span></div>
           </div>
 
-          <div class="row" data-day="3">
-            <span class="today-tag">Today</span>
+          <div class="row">
             <div class="day">Wednesday</div>
             <div class="dish"><strong>Country Fried Steak Dinner</strong></div>
             <div class="price">$15</div>
           </div>
 
-          <div class="row" data-day="4">
-            <span class="today-tag">Today</span>
+          <div class="row">
             <div class="day">Thursday</div>
             <div class="dish"><strong>Shipwreck Sandwich</strong></div>
             <div class="price">$10</div>
           </div>
 
-          <div class="row" data-day="5">
-            <span class="today-tag">Today</span>
+          <div class="row">
             <div class="day">Friday<small>11am – 4pm</small></div>
             <div class="dish"><strong>Tavern Club</strong></div>
             <div class="price">$10</div>
           </div>
 
-          <div class="row" data-day="6">
-            <span class="today-tag">Today</span>
+          <div class="row">
             <div class="day">Saturday<small>11am – 4pm</small></div>
             <div class="dish"><strong>French Dip Sandwich</strong></div>
             <div class="price">$10</div>
           </div>
 
-          <div class="row" data-day="0">
-            <span class="today-tag">Today</span>
+          <div class="row">
             <div class="day">Sunday<small>All day</small></div>
             <div class="dish"><strong>Pulled Pork Sandwich</strong></div>
             <div class="price">$10</div>
@@ -404,8 +409,7 @@
       </div>
 
       <div class="drinks-grid" id="drinkCards">
-        <div class="drink-card" data-day="1">
-          <span class="today-tag">Tonight</span>
+        <div class="drink-card">
           <h3>Monday</h3>
           <ul>
             <li><span>Miller Lite Draft</span><b>$3</b></li>
@@ -414,8 +418,7 @@
           </ul>
         </div>
 
-        <div class="drink-card" data-day="2">
-          <span class="today-tag">Tonight</span>
+        <div class="drink-card">
           <h3>Tuesday</h3>
           <ul>
             <li><span>Bud Light Draft</span><b>$3</b></li>
@@ -424,8 +427,7 @@
           </ul>
         </div>
 
-        <div class="drink-card" data-day="3">
-          <span class="today-tag">Tonight</span>
+        <div class="drink-card">
           <h3>Wednesday</h3>
           <ul>
             <li><span>Sun Cruisers</span><b>$4</b></li>
@@ -434,8 +436,7 @@
           </ul>
         </div>
 
-        <div class="drink-card" data-day="4">
-          <span class="today-tag">Tonight</span>
+        <div class="drink-card">
           <h3>Thursday</h3>
           <ul>
             <li><span>High Noons</span><b>$4</b></li>
@@ -443,24 +444,21 @@
           </ul>
         </div>
 
-        <div class="drink-card" data-day="5">
-          <span class="today-tag">Tonight</span>
+        <div class="drink-card">
           <h3>Friday <span>After 10pm</span></h3>
           <ul>
             <li><span>Fireball</span><b>$5</b></li>
           </ul>
         </div>
 
-        <div class="drink-card" data-day="6">
-          <span class="today-tag">Tonight</span>
+        <div class="drink-card">
           <h3>Saturday <span>After 10pm</span></h3>
           <ul>
             <li><span>Rumple</span><b>$5</b></li>
           </ul>
         </div>
 
-        <div class="drink-card" data-day="0">
-          <span class="today-tag">Tonight</span>
+        <div class="drink-card">
           <h3>Sunday <span>After 7pm</span></h3>
           <ul>
             <li><span>Deep Eddy Vodka</span><b>$4</b></li>
@@ -488,8 +486,8 @@
 
     <footer>
       <div class="qr-block">
-        <a class="qr-frame" href="https://muse.ai/s/brew-and-barrel-tavern-flyer-xwxl6nxhlxorxxxvi/ahygoU_e7fuA0yBz9fsaOB6HbWB5HR_DgKoZ9jlTNpA" aria-label="Open this flyer on your phone">
-          <img src="data:image/png;base64,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" alt="QR code — scan to open this Brew and Barrel Tavern flyer on your phone" width="136" height="136" />
+        <a class="qr-frame" href="https://isoregret.github.io/Brew-and-Barrel/" aria-label="Open this flyer on your phone">
+          <img src="data:image/png;base64,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IEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIgRcgAAADFCDgAAIEbIAQAAxAg5AACAGCEHAAAQI+QAAABihBwAAECMkAMAAIj5P6uJ+kHgKIjKAAAAAElFTkSuQmCC" alt="QR code — scan to open this Brew and Barrel Tavern flyer on your phone" width="136" height="136" />
         </a>
         <div class="qr-copy">
           <p class="qr-title">Take the flyer with you</p>
@@ -507,41 +505,65 @@
 </div>
 
 <script>
+/* Daily "Today" highlight — runs on the viewer's device, so the flyer
+   always names the current day: today's food row and tonight's drink
+   card get the teal highlight, a Today/Tonight tag, and the masthead
+   pill summarises what's on. Printed copies stay day-neutral (see the
+   print styles above). */
 (function(){
-  var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-  var today = new Date().getDay();
-  var name = days[today];
+  var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var today = days[new Date().getDay()];
+  function isToday(text){ return text.replace(/^\s+/, '').indexOf(today) === 0; }
+  function clean(text){ return text.replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, ''); }
 
-  // Highlight today's food row and drink card
-  document.querySelectorAll("[data-day]").forEach(function(el){
-    if (parseInt(el.getAttribute("data-day"),10) === today) el.classList.add("is-today");
-  });
+  var foodDish = '', foodPrice = '';
+  var rows = document.querySelectorAll('#foodRows .row');
+  for (var i = 0; i < rows.length; i++){
+    var dayEl = rows[i].querySelector('.day');
+    if (dayEl && isToday(dayEl.textContent)){
+      rows[i].classList.add('is-today');
+      var tag = document.createElement('span');
+      tag.className = 'today-tag';
+      tag.textContent = 'Today';
+      dayEl.appendChild(tag);
+      var strong = rows[i].querySelector('.dish strong');
+      if (strong) foodDish = clean(strong.textContent);
+      var price = rows[i].querySelector('.price');
+      if (price) foodPrice = clean(price.textContent);
+    }
+  }
 
-  // Build a friendly today line from the flyer's own data
-  var foodText = {
-    0:"$10 Pulled Pork Sandwich — all day",
-    1:"$1 Wings",
-    2:"Pizza Night — $12 cheese & pepperoni, $15 specialty",
-    3:"$15 Country Fried Steak Dinner",
-    4:"$10 Shipwreck Sandwich",
-    5:"$10 Tavern Club (11am–4pm)",
-    6:"$10 French Dip Sandwich (11am–4pm)"
-  };
-  var drinkText = {
-    0:"$4 Deep Eddy Vodka & $5 Seltzers after 7pm",
-    1:"$3 Miller Lite Draft, $4 Rumple, $5 Tully",
-    2:"$3 Bud Light Draft, $4 Partida Tequila, $5 Fireball",
-    3:"$4 Sun Cruisers, $4 Deep Eddy Vodka, $5 House Wines",
-    4:"$4 High Noons & $4 3 Olives Vodka",
-    5:"$5 Fireball after 10pm",
-    6:"$5 Rumple after 10pm"
-  };
-  var pill = document.getElementById("todayPill");
-  if (pill) {
-    pill.textContent = "Today is " + name + " — Food: " + foodText[today] + "  •  Drinks: " + drinkText[today];
-    pill.classList.add("show");
+  var drinkNames = [];
+  var cards = document.querySelectorAll('#drinkCards .drink-card');
+  for (var j = 0; j < cards.length; j++){
+    var h3 = cards[j].querySelector('h3');
+    if (h3 && isToday(h3.textContent)){
+      cards[j].classList.add('is-today');
+      var dtag = document.createElement('span');
+      dtag.className = 'today-tag';
+      dtag.textContent = 'Tonight';
+      var ul = cards[j].querySelector('ul');
+      if (ul) cards[j].insertBefore(dtag, ul);
+      var items = cards[j].querySelectorAll('li');
+      for (var k = 0; k < items.length; k++){
+        var name = items[k].querySelector('span');
+        var amt = items[k].querySelector('b');
+        if (name && amt) drinkNames.push(clean(name.textContent) + ' ' + clean(amt.textContent));
+      }
+    }
+  }
+
+  var pill = document.getElementById('todayPill');
+  var pillText = document.getElementById('todayPillText');
+  if (pill && pillText){
+    var msg = today;
+    if (foodDish) msg += ' — ' + foodDish + (foodPrice ? ' ' + foodPrice : '');
+    if (drinkNames.length) msg += ' · Tonight: ' + drinkNames.join(' · ');
+    pillText.textContent = msg;
+    pill.hidden = false;
   }
 })();
 </script>
+
 </body>
 </html>
